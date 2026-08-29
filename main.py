@@ -9,9 +9,10 @@ clock = pygame.time.Clock()
 
 def main():
     running = True
-    display.fill((0,0,0))
 
     while running:
+        display.fill((0,0,0))
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
