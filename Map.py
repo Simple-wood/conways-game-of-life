@@ -1,4 +1,4 @@
-import pygame
+from Cell import Cell
 
 class Map:
     def __init__(self, cell_size):
@@ -21,14 +21,18 @@ class Map:
 
     def add_cell(self, x, y):
         key = self.generate_key(x, y)
+        cell = Cell(x, y, self.cell_size)
 
-        self.map[key] = [x, y]
+        self.map[key] = cell
+
+    def remove_cell(self, x, y):
+        key = self.generate_key(x, y)
+
+        if key in self.map:
+            del self.map[key]
 
     def draw_map(self, display, offset):
         for key in self.map:
-            coords = self.map[key]
-            display_x = (coords[0] * self.cell_size) + (offset[0] * self.cell_size)
-            display_y = (coords[1] * self.cell_size) + (offset[1] * self.cell_size)
+            cell = self.map[key]
 
-            cell_rect = pygame.Rect(display_x, display_y, self.cell_size, self.cell_size)
-            pygame.draw.rect(display, (0,0,0), cell_rect)
+            cell.draw_cell(display, offset)
