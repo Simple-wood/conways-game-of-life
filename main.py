@@ -8,7 +8,6 @@ pygame.init()
 display = pygame.display.set_mode(SCREEN_DIMENSIONS)
 pygame.display.set_caption("Kishal's fraudulent game of life")
 clock = pygame.time.Clock()
-cells = []
 
 def main():
     simulation_display = Simulation(display, SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1], CELL_SIZE)
@@ -16,7 +15,7 @@ def main():
 
     while running:
         events = pygame.event.get()
-        running = simulation_display.loop(events, cells)
+        running = simulation_display.loop(events)
                     
         pygame.display.update()
         clock.tick(30)
