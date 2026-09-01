@@ -62,6 +62,9 @@ class Simulation(Display):
                 if event.button == 1:
                     grid_coords = self.map.to_grid_coordinates(event.pos[0], event.pos[1], self.offset)
                     self.map.add_cell(grid_coords[0], grid_coords[1])
+                elif event.button == 3:
+                    grid_coords = self.map.to_grid_coordinates(event.pos[0], event.pos[1], self.offset)
+                    self.map.remove_cell(grid_coords[0], grid_coords[1])
 
         return True
 
@@ -71,12 +74,12 @@ class Simulation(Display):
                 grid_box = pygame.Rect(x, y, self.cell_size, self.cell_size)
                 pygame.draw.rect(self.display, (196, 196, 196), grid_box, 2)
 
-    def refresh_screen(self, cells):
+    def refresh_screen(self):
         self.display.fill((255, 255, 255))
         self.map.draw_map(self.display, self.offset)      
         self.draw_grid()
 
-    def loop(self, events, cells):
-        self.refresh_screen(cells)
+    def loop(self, events):
+        self.refresh_screen()
         self.update_offset_directions()
         return self.handle_events(events)
