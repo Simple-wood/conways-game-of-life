@@ -20,9 +20,9 @@ class Cell:
             check_y = self.y + offset[1]
             check_key = map_object.generate_key(check_x, check_y)
 
-            if check_key in map.map:
+            if check_key in map_object.map:
                 # We have an alive cell 
-                neighbours.append(map.map[check_key])
+                neighbours.append(map_object.map[check_key])
             else:
                 if check_key in dead_cells:
                     count = dead_cells[check_key] + 1
