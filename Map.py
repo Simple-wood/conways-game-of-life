@@ -31,6 +31,30 @@ class Map:
         if key in self.map:
             del self.map[key]
 
+    def update_cells(self):
+        dead_cells = {}
+        new_map = self.map.copy()
+
+        for key in self.map:
+            cell = self.map[key]
+            cell.update_cell(self, dead_cells)
+
+            if not cell.is_alive():
+                del new_map[key]
+
+        for cell in dead_cells:
+            count = dead_cells[cell]
+
+            if count == 3:
+                coords = cell.split(":")
+                new_x = int(coords[0])
+                new_y = int(coords[1])
+                new_cell = Cell(new_x, new_y, self.cell_size)
+
+                new_map[cell] = new_cell
+
+        self.map = new_map
+
     def draw_map(self, display, offset):
         for key in self.map:
             cell = self.map[key]
