@@ -78,7 +78,7 @@ class Simulation(Display):
                 pygame.draw.rect(self.display, (196, 196, 196), grid_box, 2)
 
     def refresh_screen(self):
-        self.display.fill((255, 255, 255))
+        self.display.fill((255,255,255))
         self.map.draw_map(self.display, self.offset)      
         self.draw_grid()
 
@@ -86,6 +86,6 @@ class Simulation(Display):
         self.refresh_screen()
         self.update_offset_directions()
 
-        if not self.state and count % 10 == 0:
+        if not self.state and count % 15 == 0:
             self.map.update_cells()
         return self.handle_events(events)
