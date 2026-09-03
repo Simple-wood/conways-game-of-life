@@ -34,6 +34,9 @@ class Simulation(Display):
                 return False
             
             elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    self.state = not self.state
+
                 if event.key == pygame.K_a:
                     self.directions[0] = 1
                 elif event.key == pygame.K_d:
@@ -58,7 +61,7 @@ class Simulation(Display):
                 elif event.key in [pygame.K_w, pygame.K_s]:
                     self.directions[1] = 0
 
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and self.state:
                 if event.button == 1:
                     grid_coords = self.map.to_grid_coordinates(event.pos[0], event.pos[1], self.offset)
                     self.map.add_cell(grid_coords[0], grid_coords[1])
@@ -79,7 +82,10 @@ class Simulation(Display):
         self.map.draw_map(self.display, self.offset)      
         self.draw_grid()
 
-    def loop(self, events):
+    def loop(self, events, count):
         self.refresh_screen()
         self.update_offset_directions()
+
+        if not self.state and count % 10 == 0:
+            self.map.update_cells()
         return self.handle_events(events)
