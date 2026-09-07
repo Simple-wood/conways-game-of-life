@@ -1,9 +1,11 @@
 import pygame
 from Map import Map
+from utils import StatusSymbol
 
 class Display:
-    def __init__(self, display, width, height):
+    def __init__(self, display, font, width, height):
         self.display = display
+        self.font = font
         self.display_height = height
         self.display_width = width
         self.offset = [0,0]
@@ -14,12 +16,13 @@ class Display:
 
 
 class Simulation(Display):
-    def __init__(self, display, width, height, cell_size):
-        super().__init__(display, width, height)
+    def __init__(self, display, font, width, height, cell_size):
+        super().__init__(display, font, width, height)
         self.directions = [0,0]
         self.cell_size = cell_size
 
         self.map = Map(self.cell_size)
+        self.indicator = StatusSymbol((30, 86), 20)
         self.state = True # boolean flag - if true we are in creation state else we are in simulation state
 
     def update_offset_directions(self):
@@ -36,6 +39,7 @@ class Simulation(Display):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     self.state = not self.state
+                    self.indicator.flip_states(self.state)
 
                 if event.key == pygame.K_a:
                     self.directions[0] = 1
@@ -77,15 +81,29 @@ class Simulation(Display):
                 grid_box = pygame.Rect(x, y, self.cell_size, self.cell_size)
                 pygame.draw.rect(self.display, (196, 196, 196), grid_box, 2)
 
+    def draw_statistics(self):
+        generation_text = "Generation : " + str(self.map.get_generation())
+        population_text = "Population : " + str(self.map.get_population())
+
+        render_pop_text = self.font.render(population_text, True, (0, 143, 17))
+        render_gen_text = self.font.render(generation_text, True, (0, 143, 17))
+
+        self.display.blit(render_gen_text, (5, 10))
+        self.display.blit(render_pop_text, (5, 36))
+
     def refresh_screen(self):
         self.display.fill((255,255,255))
         self.map.draw_map(self.display, self.offset)      
         self.draw_grid()
+        self.draw_statistics()
+        self.indicator.draw_status(self.display)
 
     def loop(self, events, count):
         self.refresh_screen()
         self.update_offset_directions()
 
-        if not self.state and count % 15 == 0:
+        if not self.state and count % 10 == 0:
             self.map.update_cells()
+            self.map.update_generation()
+
         return self.handle_events(events)
