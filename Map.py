@@ -6,6 +6,7 @@ class Map:
         # To go from screen coords to grid coords, we divide by cell size and for vice versa, we multiply by cell size
         self.map = {} # contains locations of alive cells
         self.cell_size = cell_size
+        self.generation = 0
 
     def to_grid_coordinates(self, x, y, offset):
         new_x = (x - (offset[0] * self.cell_size)) // self.cell_size
@@ -54,6 +55,15 @@ class Map:
                 new_map[cell] = new_cell
 
         self.map = new_map
+
+    def get_population(self):
+        return len(self.map)
+
+    def update_generation(self):
+        self.generation += 1
+
+    def get_generation(self):
+        return self.generation
 
     def draw_map(self, display, offset):
         for key in self.map:
