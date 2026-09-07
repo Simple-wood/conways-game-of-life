@@ -3,14 +3,16 @@ from Display import Simulation
 
 SCREEN_DIMENSIONS = (640, 480)
 CELL_SIZE = 32
+FONT_SIZE = 16
 
 pygame.init()
 display = pygame.display.set_mode(SCREEN_DIMENSIONS)
 pygame.display.set_caption("Kishal's fraudulent game of life")
 clock = pygame.time.Clock()
+font = pygame.font.SysFont("ocraextended", FONT_SIZE, True)
 
 def main():
-    simulation_display = Simulation(display, SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1], CELL_SIZE)
+    simulation_display = Simulation(display, font, SCREEN_DIMENSIONS[0], SCREEN_DIMENSIONS[1], CELL_SIZE)
     running = True
     frame_count = 0
 
