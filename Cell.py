@@ -39,6 +39,9 @@ class Cell:
         if(length < 2 or length > 3):
             self.alive = False
 
+    def update_cell_size(self, new_cell_size):
+        self.cell_size = new_cell_size
+
     def draw_cell(self, display, offset):
         display_x = (self.x * self.cell_size) + (offset[0] * self.cell_size)
         display_y = (self.y * self.cell_size) + (offset[1] * self.cell_size)
