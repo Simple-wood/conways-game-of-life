@@ -56,6 +56,13 @@ class Map:
 
         self.map = new_map
 
+    def update_cell_size(self, new_size):
+        self.cell_size = new_size
+
+        for key in self.map:
+            cell = self.map[key]
+            cell.update_cell_size(new_size)
+
     def get_population(self):
         return len(self.map)
 
